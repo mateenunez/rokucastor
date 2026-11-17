@@ -1,0 +1,24 @@
+# Notices
+
+rokucastor is a separate project derived in part from
+[castor](https://github.com/stupside/castor), Copyright (c) 2026 stupside,
+licensed under the MIT License.
+
+Components adapted from castor include, or will include:
+
+- Roku SSDP discovery and ECP session handling
+  (`services/apiserver/internal/device/roku`).
+- Roku sideload/install logic and the SceneGraph playback channel.
+- The terminal palette, list styling, key bindings and layout helpers used by
+  the TUI (`cmd/castor/internal/palette` and `cmd/castor/internal/browse`).
+- Subtitle and caption file helpers.
+
+rokucastor does not bundle Whisper. On first use it downloads the pinned
+`whisper.cpp` Windows build and the selected ggml model into the user's cache
+directory, each verified by SHA-256. `whisper.cpp` is Copyright (c) 2022-2024
+Georgi Gerganov and contributors, licensed under the MIT License; the ggml
+Whisper models derive from OpenAI's Whisper and are distributed under the MIT
+License.
+
+The original MIT license text is reproduced in `LICENSE`. Any file copied or
+adapted from castor keeps its original copyright notice when it carries one.

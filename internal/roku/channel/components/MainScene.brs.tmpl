@@ -1,0 +1,48 @@
+sub init()
+    m.video = m.top.findNode("video")
+end sub
+
+sub onArgs()
+    a = m.top.args
+    if a = invalid then return
+
+    content = CreateObject("roSGNode", "ContentNode")
+    content.url = a["{{.ParamURL}}"]
+    content.streamFormat = a["{{.ParamFormat}}"]
+
+    ' playStart is where the media's own timeline begins. Transcodes seek with
+    ' ffmpeg instead, so their timeline starts at zero and this stays absent.
+    if a["{{.ParamStart}}"] <> invalid then
+        start = Val(a["{{.ParamStart}}"])
+        if start > 0 then content.playStart = start
+    end if
+
+    subtitle = ""
+    if a["{{.ParamSubtitle}}"] <> invalid then subtitle = a["{{.ParamSubtitle}}"]
+
+    if subtitle <> "" then
+        language = "spa"
+        if a["{{.ParamSubtitleLang}}"] <> invalid then language = a["{{.ParamSubtitleLang}}"]
+
+        description = "Subtitles"
+        if a["{{.ParamSubtitleDescription}}"] <> invalid then description = a["{{.ParamSubtitleDescription}}"]
+
+        ' Roku only accepts SRT/TTML/DFXP side-loaded tracks, and TrackName is
+        ' the URL it fetches. The language is an ISO 639-2/B code.
+        content.subtitleTracks = [{
+            Language: language
+            Description: description
+            TrackName: subtitle
+        }]
+        content.subtitleConfig = { TrackName: subtitle }
+    end if
+
+    m.video.content = content
+
+    if subtitle <> "" then
+        m.video.globalCaptionMode = "On"
+    end if
+
+    m.video.control = "play"
+    m.video.setFocus(true)
+end sub

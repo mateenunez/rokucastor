@@ -1,0 +1,15 @@
+# Built binaries
+/rokucastor
+/rokucastor.exe
+/dist/
+
+# Go test and coverage output
+*.test
+*.out
+coverage.*
+
+# Local overrides and editor state
+config.local.json
+.env
+.idea/
+.vscode/
